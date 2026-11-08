@@ -38,11 +38,16 @@ Use `-A Win32` and a different build directory for 32-bit. The DLL is in `build-
 
 ### Install the plugin
 
-Close Notepad++. Copy **KPairs.dll** and the **locale** directory into:
+Close Notepad++. Extract the **KPairs** folder from **KPairs-0.2-x64.zip** into your Notepad++ **plugins** directory.
+
+The resulting layout must be:
 
 ~~~text
-<Notepad++ installation>\plugins\KPairs\
+<Notepad++ installation>\plugins\KPairs\KPairs.dll
+<Notepad++ installation>\plugins\KPairs\locale\
 ~~~
+
+If your archive tool creates an extra folder named after the ZIP, move the **KPairs** folder from inside it into **plugins**.
 
 Restart Notepad++ and open **Plugins → KPairs → Show KPairs**. Binary packages contain the plugin, translations and documentation; the src package contains the source and build files.
 
