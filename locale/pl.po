@@ -1,0 +1,477 @@
+msgid ""
+msgstr "Project-Id-Version: KPairs 0.2\nLanguage: pl\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n"
+
+msgid " matches (preview)."
+msgstr " dopasowań (podgląd)."
+
+msgid " replacements. Ctrl+Z to undo."
+msgstr " zamian. Ctrl+Z cofa operację."
+
+msgid "About"
+msgstr "O programie"
+
+msgid "About KPairs"
+msgstr "O KPairs"
+
+msgid "Action on double click"
+msgstr "Akcja po dwukrotnym kliknięciu"
+
+msgid "Add"
+msgstr "Dodaj"
+
+msgid "Add directory"
+msgstr "Dodaj katalog"
+
+msgid "Add to Favourites"
+msgstr "Dodaj do ulubionych"
+
+msgid "After: "
+msgstr "Po: "
+
+msgid "Automatic"
+msgstr "Automatycznie"
+
+msgid "Background..."
+msgstr "Tło..."
+
+msgid "Beep on complete"
+msgstr "Sygnał dźwiękowy po zakończeniu"
+
+msgid "Before: "
+msgstr "Przed: "
+
+msgid "Calculating replacements..."
+msgstr "Obliczanie zamian..."
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "Cannot access clipboard data."
+msgstr "Nie można uzyskać dostępu do danych schowka."
+
+msgid "Cannot allocate clipboard data."
+msgstr "Nie można przydzielić pamięci schowka."
+
+msgid "Cannot copy report."
+msgstr "Nie można skopiować raportu."
+
+msgid "Cannot create dialog."
+msgstr "Nie można utworzyć okna."
+
+msgid "Cannot create library panel."
+msgstr "Nie można utworzyć panelu biblioteki."
+
+msgid "Cannot load licence."
+msgstr "Nie można wczytać licencji."
+
+msgid "Cannot locate plugin configuration directory."
+msgstr "Nie można odnaleźć katalogu konfiguracji wtyczki."
+
+msgid "Cannot open clipboard."
+msgstr "Nie można otworzyć schowka."
+
+msgid "Cannot open directory picker."
+msgstr "Nie można otworzyć okna wyboru katalogu."
+
+msgid "Cannot open library file for writing."
+msgstr "Nie można otworzyć pliku biblioteki do zapisu."
+
+msgid "Cannot read import file, or file is too large."
+msgstr "Nie można odczytać pliku importu lub plik jest zbyt duży."
+
+msgid "Cannot read library file."
+msgstr "Nie można odczytać pliku biblioteki."
+
+msgid "Cannot replace library file. Check directory permissions."
+msgstr "Nie można zastąpić pliku biblioteki. Sprawdź uprawnienia katalogu."
+
+msgid "Cannot write library file."
+msgstr "Nie można zapisać pliku biblioteki."
+
+msgid "Case sensitivity"
+msgstr "Wielkość liter"
+
+msgid "Case-sensitive"
+msgstr "Uwzględnia wielkość liter"
+
+msgid "Close"
+msgstr "Zamknij"
+
+msgid "Colour..."
+msgstr "Kolor..."
+
+msgid "Copy report to clipboard"
+msgstr "Kopiuj raport do schowka"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Delete"
+msgstr "Usuń"
+
+msgid "Delete this group? Its pairs will keep their current settings."
+msgstr "Usunąć tę grupę? Jej pary zachowają aktualne ustawienia."
+
+msgid "Delete this pair?"
+msgstr "Usunąć tę parę?"
+
+msgid "Description (search keywords / notes)"
+msgstr "Opis (słowa kluczowe / notatki do wyszukiwania)"
+
+msgid "Directory"
+msgstr "Katalog"
+
+msgid "Directory filter"
+msgstr "Filtr katalogów"
+
+msgid "Display always"
+msgstr "Zawsze pokazuj"
+
+msgid "Display always shows default values too."
+msgstr "Zawsze pokazuj wyświetla również wartości domyślne."
+
+msgid "Duplicate"
+msgstr "Duplikuj"
+
+msgid "Duplicate group identifier."
+msgstr "Powtórzony identyfikator grupy."
+
+msgid "Duplicate pair identifier."
+msgstr "Powtórzony identyfikator pary."
+
+msgid "Edit"
+msgstr "Edytuj"
+
+msgid "Edit group"
+msgstr "Edycja grupy"
+
+msgid "Edit pair"
+msgstr "Edycja pary"
+
+msgid "Exact directory"
+msgstr "Tylko wskazany katalog"
+
+msgid "Execute replace"
+msgstr "Wykonaj zamianę"
+
+msgid "Export JSON"
+msgstr "Eksport JSON"
+
+msgid "Export JSON..."
+msgstr "Eksport JSON..."
+
+msgid "Extended"
+msgstr "Rozszerzony"
+
+msgid "Favourite"
+msgstr "Ulubiona"
+
+msgid "Favourites"
+msgstr "Ulubione"
+
+msgid "Filename filter"
+msgstr "Filtr nazw plików"
+
+msgid "Filename mask"
+msgstr "Maska nazwy pliku"
+
+msgid "Find"
+msgstr "Znajdź"
+
+msgid "Find and replace library for Notepad++"
+msgstr "Biblioteka par do zamiany tekstu w Notepad++"
+
+msgid "Find must not be empty."
+msgstr "Pole Znajdź nie może być puste."
+
+msgid "Flag Guide"
+msgstr "Przewodnik po flagach"
+
+msgid "Flag appearance"
+msgstr "Wygląd flag"
+
+msgid "Flag appearance..."
+msgstr "Wygląd flag..."
+
+msgid "Flag variant"
+msgstr "Wariant flagi"
+
+msgid "Gather usage statistics (local only; never sent)"
+msgstr "Zbieraj statystyki użycia (tylko lokalnie; bez wysyłania)"
+
+msgid "Generated with ChatGPT - GPT-6 Astra"
+msgstr "Wygenerowano z ChatGPT - GPT-6 Astra"
+
+msgid "Group"
+msgstr "Grupa"
+
+msgid "Group display"
+msgstr "Wyświetlanie grup"
+
+msgid "Group name"
+msgstr "Nazwa grupy"
+
+msgid "Group name must not be empty."
+msgstr "Nazwa grupy nie może być pusta."
+
+msgid "Groups"
+msgstr "Grupy"
+
+msgid "Groups..."
+msgstr "Grupy..."
+
+msgid "Idea, requirements and interface: Krzysztof Blachnicki"
+msgstr "Pomysł, wymagania i interfejs: Krzysztof Blachnicki"
+
+msgid "Ignore case"
+msgstr "Ignoruj wielkość liter"
+
+msgid "Import"
+msgstr "Importuj"
+
+msgid "Import (simple format)"
+msgstr "Import (prosty format)"
+
+msgid "Import JSON"
+msgstr "Import JSON"
+
+msgid "Import JSON..."
+msgstr "Import JSON..."
+
+msgid "Import as"
+msgstr "Importuj jako"
+
+msgid "Imported pairs: "
+msgstr "Zaimportowane pary: "
+
+msgid "Invalid flag appearance."
+msgstr "Nieprawidłowy wygląd flagi."
+
+msgid "Invalid library settings."
+msgstr "Nieprawidłowe ustawienia biblioteki."
+
+msgid "Invalid regular expression."
+msgstr "Nieprawidłowe wyrażenie regularne."
+
+msgid "Invalid replacement expression."
+msgstr "Nieprawidłowe wyrażenie zamiany."
+
+msgid "Invalid settings."
+msgstr "Nieprawidłowe ustawienia."
+
+msgid "Invalid text encoding."
+msgstr "Nieprawidłowe kodowanie tekstu."
+
+msgid "Invalid text field."
+msgstr "Nieprawidłowe pole tekstowe."
+
+msgid "KPairs settings"
+msgstr "Ustawienia KPairs"
+
+msgid "Label (up to 8 characters)"
+msgstr "Etykieta (do 8 znaków)"
+
+msgid "Language"
+msgstr "Język"
+
+msgid "Library file exceeds 16 MiB."
+msgstr "Plik biblioteki przekracza 16 MiB."
+
+msgid "Library file:"
+msgstr "Plik biblioteki:"
+
+msgid "Library limit exceeded."
+msgstr "Przekroczono limit biblioteki."
+
+msgid "License (GPL-3.0-or-later)"
+msgstr "Licencja (GPL-3.0-or-later)"
+
+msgid "Line"
+msgstr "Linia"
+
+msgid "Local statistics only. No data is sent."
+msgstr "Statystyki wyłącznie lokalne. Dane nie są wysyłane."
+
+msgid "Matches: "
+msgstr "Dopasowania: "
+
+msgid "Multiple entries are to be separated by semicolon (;)"
+msgstr "Wiele wpisów oddziel średnikiem (;)"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "Name (optional)"
+msgstr "Nazwa (opcjonalna)"
+
+msgid "No changes applied. First 100 matches:"
+msgstr "Nie wprowadzono zmian. Pierwsze 100 dopasowań:"
+
+msgid "No colour"
+msgstr "Bez koloru"
+
+msgid "No directory filter"
+msgstr "Bez filtra katalogów"
+
+msgid "No filename filter"
+msgstr "Bez filtra nazw plików"
+
+msgid "No results"
+msgstr "Brak wyników"
+
+msgid "None"
+msgstr "Brak"
+
+msgid "Normal"
+msgstr "Zwykły"
+
+msgid "Operation failed; see error message."
+msgstr "Operacja nie powiodła się. Sprawdź komunikat błędu."
+
+msgid "Pair executions: "
+msgstr "Wykonania par: "
+
+msgid "Pairs"
+msgstr "Pary"
+
+msgid "Pairs: "
+msgstr "Pary: "
+
+msgid "Preview"
+msgstr "Podgląd"
+
+msgid "Recursive"
+msgstr "Rekurencyjnie"
+
+msgid "Recursive directory"
+msgstr "Katalog wraz z podkatalogami"
+
+msgid "Regex"
+msgstr "Wyrażenia regularne"
+
+msgid "Regex engine reported an error."
+msgstr "Silnik wyrażeń regularnych zgłosił błąd."
+
+msgid "Remove from Favourites"
+msgstr "Usuń z ulubionych"
+
+msgid "Replace all"
+msgstr "Zamień wszystkie"
+
+msgid "Replace with (empty "
+msgstr " delete matches)=Zamień na (puste = usuń dopasowania)"
+
+msgid "Replacement completed, but statistics could not be saved."
+msgstr "Zamiana zakończona, ale nie udało się zapisać statystyk."
+
+msgid "Replacement preview"
+msgstr "Podgląd zamiany"
+
+msgid "Report"
+msgstr "Raport"
+
+msgid "Restore defaults"
+msgstr "Przywróć domyślne"
+
+msgid "Save"
+msgstr "Zapisz"
+
+msgid "Scope"
+msgstr "Zakres"
+
+msgid "Search mode"
+msgstr "Tryb szukania"
+
+msgid "Search name, description, find, replace"
+msgstr "Szukaj w nazwie, opisie i zamienianych tekstach"
+
+msgid "Select text first, or choose Whole document."
+msgstr "Zaznacz tekst lub wybierz Cały dokument."
+
+msgid "Selection only"
+msgstr "Tylko zaznaczenie"
+
+msgid "Settings"
+msgstr "Ustawienia"
+
+msgid "Show all (ignore file and directory filters)"
+msgstr "Pokaż wszystko (ignoruj filtry plików i katalogów)"
+
+msgid "Show favourites also in Pairs"
+msgstr "Pokazuj ulubione również w sekcji Pary"
+
+msgid "Show flags on list"
+msgstr "Pokazuj flagi na liście"
+
+msgid "Show only for"
+msgstr "Pokazuj tylko dla"
+
+msgid "Simple import"
+msgstr "Prosty import"
+
+msgid "Simple import..."
+msgstr "Prosty import..."
+
+msgid "Statistics"
+msgstr "Statystyki"
+
+msgid "Strings replaced: "
+msgstr "Zamienione teksty: "
+
+msgid "Temporary scope"
+msgstr "Tymczasowy zakres"
+
+msgid "Text colour..."
+msgstr "Kolor tekstu..."
+
+msgid "The document changed. Run the operation again."
+msgstr "Dokument zmienił się. Uruchom operację ponownie."
+
+msgid "The document is read-only."
+msgstr "Dokument jest tylko do odczytu."
+
+msgid "This group was deleted."
+msgstr "Ta grupa została usunięta."
+
+msgid "This pair was deleted."
+msgstr "Ta para została usunięta."
+
+msgid "This version supports documents up to 32 MiB."
+msgstr "Ta wersja obsługuje dokumenty do 32 MiB."
+
+msgid "Too many pairs."
+msgstr "Zbyt wiele par."
+
+msgid "Top 10 by executions"
+msgstr "Top 10 według liczby wykonań"
+
+msgid "Top 10 by strings replaced"
+msgstr "Top 10 według liczby zamienionych tekstów"
+
+msgid "Ungrouped"
+msgstr "Bez grupy"
+
+msgid "Unknown group."
+msgstr "Nieznana grupa."
+
+msgid "Unsupported library version."
+msgstr "Nieobsługiwana wersja biblioteki."
+
+msgid "Use count: "
+msgstr "Liczba wykonań: "
+
+msgid "Use group setting"
+msgstr "Użyj ustawienia grupy"
+
+msgid "Use one normal text selection."
+msgstr "Użyj jednego zwykłego zaznaczenia tekstu."
+
+msgid "Use pair settings"
+msgstr "Użyj ustawień pary"
+
+msgid "Whole document"
+msgstr "Cały dokument"
+
+
+msgid "Show KPairs"
+msgstr "Pokaż KPairs"

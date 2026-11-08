@@ -1,0 +1,5 @@
+/work/
+/outputs/
+/releases/*.zip
+/build*/
+*.tmp

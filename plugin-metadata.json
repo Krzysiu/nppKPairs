@@ -1,0 +1,18 @@
+{
+  "APP_NAME": "KPairs",
+  "APP_VER": "0.2",
+  "APP_VERSION_FILE": "0.2.0.0",
+  "author": "Krzysztof Blachnicki",
+  "homepage": "https://github.com/Krzysiu/nppKPairs",
+  "license": "GPL-3.0-or-later",
+  "description": "A configurable find-and-replace library with groups, previews, favourites and Normal, Extended and Regex modes.",
+  "architectures": [
+    "x64"
+  ],
+  "tested": {
+    "notepad++": "8.9.8.1",
+    "architecture": "x64",
+    "model_assertions": 55,
+    "host_checks": 44
+  }
+}

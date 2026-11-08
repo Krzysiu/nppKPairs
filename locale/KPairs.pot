@@ -1,0 +1,477 @@
+msgid ""
+msgstr "Project-Id-Version: KPairs 0.2\nContent-Type: text/plain; charset=UTF-8\n"
+
+msgid " matches (preview)."
+msgstr ""
+
+msgid " replacements. Ctrl+Z to undo."
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "About KPairs"
+msgstr ""
+
+msgid "Action on double click"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add directory"
+msgstr ""
+
+msgid "Add to Favourites"
+msgstr ""
+
+msgid "After: "
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Background..."
+msgstr ""
+
+msgid "Beep on complete"
+msgstr ""
+
+msgid "Before: "
+msgstr ""
+
+msgid "Calculating replacements..."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Cannot access clipboard data."
+msgstr ""
+
+msgid "Cannot allocate clipboard data."
+msgstr ""
+
+msgid "Cannot copy report."
+msgstr ""
+
+msgid "Cannot create dialog."
+msgstr ""
+
+msgid "Cannot create library panel."
+msgstr ""
+
+msgid "Cannot load licence."
+msgstr ""
+
+msgid "Cannot locate plugin configuration directory."
+msgstr ""
+
+msgid "Cannot open clipboard."
+msgstr ""
+
+msgid "Cannot open directory picker."
+msgstr ""
+
+msgid "Cannot open library file for writing."
+msgstr ""
+
+msgid "Cannot read import file, or file is too large."
+msgstr ""
+
+msgid "Cannot read library file."
+msgstr ""
+
+msgid "Cannot replace library file. Check directory permissions."
+msgstr ""
+
+msgid "Cannot write library file."
+msgstr ""
+
+msgid "Case sensitivity"
+msgstr ""
+
+msgid "Case-sensitive"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Colour..."
+msgstr ""
+
+msgid "Copy report to clipboard"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete this group? Its pairs will keep their current settings."
+msgstr ""
+
+msgid "Delete this pair?"
+msgstr ""
+
+msgid "Description (search keywords / notes)"
+msgstr ""
+
+msgid "Directory"
+msgstr ""
+
+msgid "Directory filter"
+msgstr ""
+
+msgid "Display always"
+msgstr ""
+
+msgid "Display always shows default values too."
+msgstr ""
+
+msgid "Duplicate"
+msgstr ""
+
+msgid "Duplicate group identifier."
+msgstr ""
+
+msgid "Duplicate pair identifier."
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit group"
+msgstr ""
+
+msgid "Edit pair"
+msgstr ""
+
+msgid "Exact directory"
+msgstr ""
+
+msgid "Execute replace"
+msgstr ""
+
+msgid "Export JSON"
+msgstr ""
+
+msgid "Export JSON..."
+msgstr ""
+
+msgid "Extended"
+msgstr ""
+
+msgid "Favourite"
+msgstr ""
+
+msgid "Favourites"
+msgstr ""
+
+msgid "Filename filter"
+msgstr ""
+
+msgid "Filename mask"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Find and replace library for Notepad++"
+msgstr ""
+
+msgid "Find must not be empty."
+msgstr ""
+
+msgid "Flag Guide"
+msgstr ""
+
+msgid "Flag appearance"
+msgstr ""
+
+msgid "Flag appearance..."
+msgstr ""
+
+msgid "Flag variant"
+msgstr ""
+
+msgid "Gather usage statistics (local only; never sent)"
+msgstr ""
+
+msgid "Generated with ChatGPT - GPT-6 Astra"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Group display"
+msgstr ""
+
+msgid "Group name"
+msgstr ""
+
+msgid "Group name must not be empty."
+msgstr ""
+
+msgid "Groups"
+msgstr ""
+
+msgid "Groups..."
+msgstr ""
+
+msgid "Idea, requirements and interface: Krzysztof Blachnicki"
+msgstr ""
+
+msgid "Ignore case"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import (simple format)"
+msgstr ""
+
+msgid "Import JSON"
+msgstr ""
+
+msgid "Import JSON..."
+msgstr ""
+
+msgid "Import as"
+msgstr ""
+
+msgid "Imported pairs: "
+msgstr ""
+
+msgid "Invalid flag appearance."
+msgstr ""
+
+msgid "Invalid library settings."
+msgstr ""
+
+msgid "Invalid regular expression."
+msgstr ""
+
+msgid "Invalid replacement expression."
+msgstr ""
+
+msgid "Invalid settings."
+msgstr ""
+
+msgid "Invalid text encoding."
+msgstr ""
+
+msgid "Invalid text field."
+msgstr ""
+
+msgid "KPairs settings"
+msgstr ""
+
+msgid "Label (up to 8 characters)"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Library file exceeds 16 MiB."
+msgstr ""
+
+msgid "Library file:"
+msgstr ""
+
+msgid "Library limit exceeded."
+msgstr ""
+
+msgid "License (GPL-3.0-or-later)"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Local statistics only. No data is sent."
+msgstr ""
+
+msgid "Matches: "
+msgstr ""
+
+msgid "Multiple entries are to be separated by semicolon (;)"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Name (optional)"
+msgstr ""
+
+msgid "No changes applied. First 100 matches:"
+msgstr ""
+
+msgid "No colour"
+msgstr ""
+
+msgid "No directory filter"
+msgstr ""
+
+msgid "No filename filter"
+msgstr ""
+
+msgid "No results"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Operation failed; see error message."
+msgstr ""
+
+msgid "Pair executions: "
+msgstr ""
+
+msgid "Pairs"
+msgstr ""
+
+msgid "Pairs: "
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Recursive"
+msgstr ""
+
+msgid "Recursive directory"
+msgstr ""
+
+msgid "Regex"
+msgstr ""
+
+msgid "Regex engine reported an error."
+msgstr ""
+
+msgid "Remove from Favourites"
+msgstr ""
+
+msgid "Replace all"
+msgstr ""
+
+msgid "Replace with (empty "
+msgstr ""
+
+msgid "Replacement completed, but statistics could not be saved."
+msgstr ""
+
+msgid "Replacement preview"
+msgstr ""
+
+msgid "Report"
+msgstr ""
+
+msgid "Restore defaults"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Scope"
+msgstr ""
+
+msgid "Search mode"
+msgstr ""
+
+msgid "Search name, description, find, replace"
+msgstr ""
+
+msgid "Select text first, or choose Whole document."
+msgstr ""
+
+msgid "Selection only"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Show all (ignore file and directory filters)"
+msgstr ""
+
+msgid "Show favourites also in Pairs"
+msgstr ""
+
+msgid "Show flags on list"
+msgstr ""
+
+msgid "Show only for"
+msgstr ""
+
+msgid "Simple import"
+msgstr ""
+
+msgid "Simple import..."
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Strings replaced: "
+msgstr ""
+
+msgid "Temporary scope"
+msgstr ""
+
+msgid "Text colour..."
+msgstr ""
+
+msgid "The document changed. Run the operation again."
+msgstr ""
+
+msgid "The document is read-only."
+msgstr ""
+
+msgid "This group was deleted."
+msgstr ""
+
+msgid "This pair was deleted."
+msgstr ""
+
+msgid "This version supports documents up to 32 MiB."
+msgstr ""
+
+msgid "Too many pairs."
+msgstr ""
+
+msgid "Top 10 by executions"
+msgstr ""
+
+msgid "Top 10 by strings replaced"
+msgstr ""
+
+msgid "Ungrouped"
+msgstr ""
+
+msgid "Unknown group."
+msgstr ""
+
+msgid "Unsupported library version."
+msgstr ""
+
+msgid "Use count: "
+msgstr ""
+
+msgid "Use group setting"
+msgstr ""
+
+msgid "Use one normal text selection."
+msgstr ""
+
+msgid "Use pair settings"
+msgstr ""
+
+msgid "Whole document"
+msgstr ""
+
+
+msgid "Show KPairs"
+msgstr ""
