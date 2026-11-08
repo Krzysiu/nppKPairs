@@ -3,7 +3,7 @@
   "display-name": "KPairs",
   "version": "0.2",
   "npp-compatible-versions": "[8.9.8.1,]",
-  "id": "cc89bfdc224fbc435b286506189e98e4e957aa58e3a409672494bf0b3a1276b3",
+  "id": "f826bdab413b57fc551b749da23755f1d2f434adb41836b14bda5b3760fc2664",
   "repository": "https://github.com/Krzysiu/nppKPairs/releases/download/v0.2/KPairs-0.2-x64.zip",
   "description": "A configurable find-and-replace library with groups, previews, favourites and Normal, Extended and Regex modes.",
   "author": "Krzysztof Blachnicki",
