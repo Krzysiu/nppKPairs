@@ -185,11 +185,15 @@ Pair resolved(int i) {
         p.scope = scope - 1;
     return p;
 }
-std::array<int, 5> variants(const Pair &p) {
-    return {p.mode, p.ignoreCase ? 3 : 4, p.maskEnabled ? 6 : 5,
-            p.directoryEnabled ? (p.recursive ? 9 : 8) : 7, p.scope ? 11 : 10};
+std::array<int, 6> variants(const Pair &p) {
+    return {p.mode,
+            p.ignoreCase ? 3 : 4,
+            p.maskEnabled ? 6 : 5,
+            p.directoryEnabled ? (p.recursive ? 9 : 8) : 7,
+            p.scope ? 11 : 10,
+            p.operations.empty() ? 12 : 13};
 }
-const std::array<int, 5> defaultVariants{2, 3, 5, 7, 10};
+const std::array<int, 6> defaultVariants{2, 3, 5, 7, 10, 12};
 void refreshGroupList() {
     if (!IsWindow(groupsWindow))
         return;
@@ -420,8 +424,15 @@ void run(bool preview) {
     status(tr(L"Calculating replacements..."));
     auto plan = makePlan(p, range(h, 0, len), (int)sci(h, SCI_GETCODEPAGE), a, b);
     if (preview) {
-        std::wstring s = label(p) + L"\r\n" + tr(L"Matches: ") + std::to_wstring(plan.edits.size()) +
-                         L"\r\n" + tr(L"No changes applied. First 100 matches:") + L"\r\n\r\n";
+        std::wstring s = label(p) + L"\r\n" + tr(L"Matches: ") + std::to_wstring(plan.matches()) + L"\r\n" +
+                         tr(L"No changes applied. First 100 matches:") + L"\r\n\r\n";
+        if (!plan.stepCounts.empty()) {
+            s = label(p) + L"\r\n" + tr(L"Matches: ") + std::to_wstring(plan.matches()) + L"\r\n";
+            for (size_t k = 0; k < plan.stepCounts.size(); ++k)
+                s += tr(L"Operation ") + std::to_wstring(k + 1) + L": " +
+                     std::to_wstring(plan.stepCounts[k]) + L"\r\n";
+            s += L"\r\n" + tr(L"Final result (shortened). No changes applied.") + L"\r\n";
+        }
         for (size_t n = 0; n < std::min<size_t>(100, plan.edits.size()); ++n) {
             auto &e = plan.edits[n];
             s += L"#" + std::to_wstring(n + 1) + L"  @" + std::to_wstring(e.start) + L"\r\n" +
@@ -434,9 +445,9 @@ void run(bool preview) {
         if (library.collectStats) {
             auto next = library;
             next.pairs[i].executed++;
-            next.pairs[i].replaced += plan.edits.size();
+            next.pairs[i].replaced += plan.matches();
             next.executions++;
-            next.replacements += plan.edits.size();
+            next.replacements += plan.matches();
             try {
                 commit(std::move(next));
             } catch (const std::exception &) {
@@ -447,7 +458,7 @@ void run(bool preview) {
             MessageBeep(MB_OK);
         SetFocus(h);
     }
-    status(std::to_wstring(plan.edits.size()) +
+    status(std::to_wstring(plan.matches()) +
            tr(preview ? L" matches (preview)." : L" replacements. Ctrl+Z to undo."));
 }
 void statistics() {
@@ -476,12 +487,20 @@ void statistics() {
     s += L"\r\n" + tr(L"Local statistics only. No data is sent.");
     report(tr(L"Statistics"), s);
 }
-const std::vector<std::wstring> flagNames{L"Normal",          L"Extended",
-                                          L"Regex",           L"Ignore case",
-                                          L"Case-sensitive",  L"No filename filter",
-                                          L"Filename filter", L"No directory filter",
-                                          L"Exact directory", L"Recursive directory",
-                                          L"Selection only",  L"Whole document"};
+const std::vector<std::wstring> flagNames{L"Normal",
+                                          L"Extended",
+                                          L"Regex",
+                                          L"Ignore case",
+                                          L"Case-sensitive",
+                                          L"No filename filter",
+                                          L"Filename filter",
+                                          L"No directory filter",
+                                          L"Exact directory",
+                                          L"Recursive directory",
+                                          L"Selection only",
+                                          L"Whole document",
+                                          L"Single operation",
+                                          L"Multiple operations"};
 void license() {
     auto r = FindResourceW(instance, MAKEINTRESOURCEW(LICENSE_TEXT), RT_RCDATA);
     if (!r)
@@ -533,18 +552,31 @@ void pickDirectory(HWND h) {
 struct EditContext {
     Pair pair;
     bool group = false, isNew = true;
+    int operation = 0;
     std::vector<std::string> groupIds;
 };
 const std::array<int, 7> inheritIds{I_MODE, I_CASE, I_SCOPE, I_COLOR, I_MASK, I_DIR, I_RECURSIVE};
 const std::array<unsigned, 7> optionBits{O_MODE, O_CASE, O_SCOPE, O_COLOR, O_MASK, O_DIR, O_RECURSIVE};
 void readOptions(HWND h, EditContext &c) {
     auto &p = c.pair;
+    if (!c.group) {
+        if (c.operation == 0) {
+            p.find = bytes(field(h, E_FIND));
+            p.replace = bytes(field(h, E_REPLACE));
+        } else {
+            auto &o = p.operations.at(c.operation - 1);
+            o.find = bytes(field(h, E_FIND));
+            o.replace = bytes(field(h, E_REPLACE));
+            o.mode = choice(h, E_MODE);
+            o.ignoreCase = checked(h, E_CASE);
+        }
+    }
     auto own = [&](int bit) { return c.group || p.group.empty() || (p.overrides & bit); };
-    if (own(O_MODE))
+    if (c.operation == 0 && own(O_MODE))
         p.mode = choice(h, E_MODE);
     if (own(O_SCOPE))
         p.scope = choice(h, E_SCOPE);
-    if (own(O_CASE))
+    if (c.operation == 0 && own(O_CASE))
         p.ignoreCase = checked(h, E_CASE);
     if (own(O_MASK)) {
         p.maskEnabled = checked(h, E_MASKON);
@@ -581,7 +613,98 @@ void displayOptions(HWND h, EditContext &c) {
         for (int id : values[i])
             EnableWindow(GetDlgItem(h, id), !inherited);
     }
+    if (!c.group) {
+        if (c.operation > 0) {
+            auto &o = c.pair.operations.at(c.operation - 1);
+            p.find = o.find;
+            p.replace = o.replace;
+            p.mode = o.mode;
+            p.ignoreCase = o.ignoreCase;
+            combo(h, E_MODE, {L"Normal", L"Extended", L"Regex"}, p.mode);
+            check(h, E_CASE, p.ignoreCase);
+            for (int id : {I_MODE, I_CASE}) {
+                check(h, id, false);
+                EnableWindow(GetDlgItem(h, id), FALSE);
+            }
+            for (int id : {E_MODE, E_CASE})
+                EnableWindow(GetDlgItem(h, id), TRUE);
+        }
+        field(h, E_FIND, p.find);
+        field(h, E_REPLACE, p.replace);
+    }
     InvalidateRect(GetDlgItem(h, E_SWATCH), nullptr, TRUE);
+}
+void operationList(HWND h, EditContext &c) {
+    if (c.group)
+        return;
+    auto list = GetDlgItem(h, E_OPLIST);
+    SendMessageW(list, LB_RESETCONTENT, 0, 0);
+    auto add = [&](int n, const std::string &a, const std::string &b) {
+        auto title = std::to_wstring(n) + L". " + wide(a) + L" => " + wide(b);
+        std::replace(title.begin(), title.end(), L'\r', L' ');
+        std::replace(title.begin(), title.end(), L'\n', L' ');
+        SendMessageW(list, LB_ADDSTRING, 0, (LPARAM)title.c_str());
+    };
+    add(1, c.pair.find, c.pair.replace);
+    int n = 2;
+    for (auto &o : c.pair.operations)
+        add(n++, o.find, o.replace);
+    SendMessageW(list, LB_SETCURSEL, c.operation, 0);
+    bool multiple = !c.pair.operations.empty();
+    for (int id : {E_OPLIST, E_OPTITLE, E_OPREMOVE, E_OPUP, E_OPDOWN, E_OPDUP})
+        ShowWindow(GetDlgItem(h, id), multiple ? SW_SHOW : SW_HIDE);
+    RECT window, client, target{0, 0, multiple ? 650 : 460, 0};
+    GetWindowRect(h, &window);
+    GetClientRect(h, &client);
+    MapDialogRect(h, &target);
+    SetWindowPos(h, nullptr, 0, 0, target.right + (window.right - window.left - client.right),
+                 window.bottom - window.top, SWP_NOMOVE | SWP_NOZORDER);
+    EnableWindow(GetDlgItem(h, E_OPUP), c.operation > 0);
+    EnableWindow(GetDlgItem(h, E_OPDOWN), c.operation < (int)c.pair.operations.size());
+}
+void changeOperation(HWND h, EditContext &c, int id) {
+    readOptions(h, c);
+    auto resolved = effective(c.pair, library);
+    std::vector<Operation> steps{{c.pair.find, c.pair.replace, resolved.mode, resolved.ignoreCase}};
+    steps.insert(steps.end(), c.pair.operations.begin(), c.pair.operations.end());
+    bool replaceFirst = false;
+    if (id == E_OPLIST) {
+        int n = (int)SendDlgItemMessageW(h, E_OPLIST, LB_GETCURSEL, 0, 0);
+        if (n >= 0)
+            c.operation = n;
+    } else if (id == E_OPADD || id == E_OPDUP) {
+        if (steps.size() >= 100)
+            throw std::runtime_error("A pair supports up to 100 operations.");
+        auto o = steps.at(c.operation);
+        if (id == E_OPADD) {
+            o.find.clear();
+            o.replace.clear();
+        }
+        steps.insert(steps.begin() + c.operation + 1, o);
+        ++c.operation;
+    } else if (id == E_OPREMOVE && steps.size() > 1) {
+        replaceFirst = c.operation == 0;
+        steps.erase(steps.begin() + c.operation);
+        c.operation = std::min(c.operation, (int)steps.size() - 1);
+    } else if (id == E_OPUP && c.operation > 0) {
+        replaceFirst = c.operation == 1;
+        std::swap(steps[c.operation], steps[c.operation - 1]);
+        --c.operation;
+    } else if (id == E_OPDOWN && c.operation + 1 < (int)steps.size()) {
+        replaceFirst = c.operation == 0;
+        std::swap(steps[c.operation], steps[c.operation + 1]);
+        ++c.operation;
+    }
+    c.pair.find = steps[0].find;
+    c.pair.replace = steps[0].replace;
+    if (replaceFirst) {
+        c.pair.mode = steps[0].mode;
+        c.pair.ignoreCase = steps[0].ignoreCase;
+        c.pair.overrides |= O_MODE | O_CASE;
+    }
+    c.pair.operations.assign(steps.begin() + 1, steps.end());
+    displayOptions(h, c);
+    operationList(h, c);
 }
 INT_PTR CALLBACK editProc(HWND h, UINT m, WPARAM w, LPARAM l) {
     auto c = (EditContext *)GetWindowLongPtrW(h, DWLP_USER);
@@ -611,6 +734,7 @@ INT_PTR CALLBACK editProc(HWND h, UINT m, WPARAM w, LPARAM l) {
                 SetDlgItemTextW(h, E_COUNT, (tr(L"Use count: ") + std::to_wstring(c->pair.executed)).c_str());
             }
             displayOptions(h, *c);
+            operationList(h, *c);
             theme(h);
             center(h);
             return TRUE;
@@ -630,6 +754,11 @@ INT_PTR CALLBACK editProc(HWND h, UINT m, WPARAM w, LPARAM l) {
             int id = LOWORD(w);
             if (id == IDCANCEL) {
                 DestroyWindow(h);
+                return TRUE;
+            }
+            if (!c->group && ((id == E_OPLIST && HIWORD(w) == LBN_SELCHANGE) || id == E_OPADD ||
+                              id == E_OPREMOVE || id == E_OPUP || id == E_OPDOWN || id == E_OPDUP)) {
+                changeOperation(h, *c, id);
                 return TRUE;
             }
             if (id == E_GROUP && HIWORD(w) == CBN_SELCHANGE) {
@@ -683,8 +812,7 @@ INT_PTR CALLBACK editProc(HWND h, UINT m, WPARAM w, LPARAM l) {
                     else
                         *it = g;
                 } else {
-                    c->pair.find = bytes(field(h, E_FIND));
-                    c->pair.replace = bytes(field(h, E_REPLACE));
+
                     c->pair.description = bytes(field(h, E_DESCRIPTION));
                     c->pair.favourite = checked(h, E_FAV);
                     if (!c->pair.group.empty() &&
@@ -937,7 +1065,8 @@ INT_PTR CALLBACK flagsProc(HWND h, UINT m, WPARAM w, LPARAM l) {
                 auto next = library;
                 next.flags = c->flags;
                 commit(std::move(next));
-                if(settingsWindow)InvalidateRect(settingsWindow,nullptr,TRUE);
+                if (settingsWindow)
+                    InvalidateRect(settingsWindow, nullptr, TRUE);
                 refresh();
                 DestroyWindow(h);
                 return TRUE;
@@ -964,7 +1093,7 @@ void flags() {
 }
 void settingsEnable(HWND h) {
     bool on = checked(h, S_FLAGS);
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 6; ++i) {
         EnableWindow(GetDlgItem(h, S_VISIBLE + i), on);
         EnableWindow(GetDlgItem(h, S_ALWAYS + i), on && checked(h, S_VISIBLE + i));
     }
@@ -1008,7 +1137,7 @@ INT_PTR CALLBACK settingsProc(HWND h, UINT m, WPARAM w, LPARAM l) {
                     selectedLanguage = (int)i;
             }
             combo(h, S_LANGUAGE, names, selectedLanguage, false);
-            for (int i = 0; i < 5; ++i) {
+            for (int i = 0; i < 6; ++i) {
                 check(h, S_VISIBLE + i, library.flagVisible[i]);
                 check(h, S_ALWAYS + i, library.flagAlways[i]);
             }
@@ -1019,12 +1148,18 @@ INT_PTR CALLBACK settingsProc(HWND h, UINT m, WPARAM w, LPARAM l) {
             return TRUE;
         }
         if (m == WM_DRAWITEM) {
-            auto d = (DRAWITEMSTRUCT*)l;
-            if(d->CtlID >= S_SAMPLE && d->CtlID < S_SAMPLE+5){
-                const std::vector<std::vector<int>> variants{{0,1,2},{3,4},{5,6},{7,8,9},{10,11}};
-                auto& family = variants[d->CtlID-S_SAMPLE];
-                int width = (d->rcItem.right-d->rcItem.left)/(int)family.size();
-                for(size_t i=0;i<family.size();++i){RECT r=d->rcItem;r.left+=(int)i*width;r.right=r.left+width-2;paintFlag(d->hDC,r,library.flags[family[i]]);}
+            auto d = (DRAWITEMSTRUCT *)l;
+            if (d->CtlID >= S_SAMPLE && d->CtlID < S_SAMPLE + 6) {
+                const std::vector<std::vector<int>> variants{{0, 1, 2}, {3, 4},   {5, 6},
+                                                             {7, 8, 9}, {10, 11}, {12, 13}};
+                auto &family = variants[d->CtlID - S_SAMPLE];
+                int width = (d->rcItem.right - d->rcItem.left) / (int)family.size();
+                for (size_t i = 0; i < family.size(); ++i) {
+                    RECT r = d->rcItem;
+                    r.left += (int)i * width;
+                    r.right = r.left + width - 2;
+                    paintFlag(d->hDC, r, library.flags[family[i]]);
+                }
                 return TRUE;
             }
         }
@@ -1034,7 +1169,7 @@ INT_PTR CALLBACK settingsProc(HWND h, UINT m, WPARAM w, LPARAM l) {
                 DestroyWindow(h);
                 return TRUE;
             }
-            if (id == S_FLAGS || (id >= S_VISIBLE && id < S_VISIBLE + 5)) {
+            if (id == S_FLAGS || (id >= S_VISIBLE && id < S_VISIBLE + 6)) {
                 settingsEnable(h);
                 return TRUE;
             }
@@ -1054,7 +1189,7 @@ INT_PTR CALLBACK settingsProc(HWND h, UINT m, WPARAM w, LPARAM l) {
                 int lang = choice(h, S_LANGUAGE);
                 if (lang >= 0)
                     next.language = locale.available.at(lang);
-                for (int i = 0; i < 5; ++i) {
+                for (int i = 0; i < 6; ++i) {
                     next.flagVisible[i] = checked(h, S_VISIBLE + i);
                     next.flagAlways[i] = checked(h, S_ALWAYS + i);
                 }
@@ -1481,7 +1616,7 @@ LRESULT drawList(NMLVCUSTOMDRAW *d) {
     int total = 0;
     auto v = variants(p);
     if (library.showFlags)
-        for (int family = 0; family < 5; ++family)
+        for (int family = 0; family < 6; ++family)
             if (library.flagVisible[family] &&
                 (library.flagAlways[family] || v[family] != defaultVariants[family])) {
                 auto &f = library.flags[v[family]];

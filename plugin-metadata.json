@@ -1,7 +1,7 @@
 {
   "APP_NAME": "KPairs",
-  "APP_VER": "0.2",
-  "APP_VERSION_FILE": "0.2.0.0",
+  "APP_VER": "0.3",
+  "APP_VERSION_FILE": "0.3.0.0",
   "author": "Krzysztof Blachnicki",
   "homepage": "https://github.com/Krzysiu/nppKPairs",
   "license": "GPL-3.0-or-later",
@@ -13,6 +13,6 @@
     "notepad++": "8.9.8.1",
     "architecture": "x64",
     "model_assertions": 55,
-    "host_checks": 44
+    "host_checks": 50
   }
 }

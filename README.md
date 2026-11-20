@@ -24,7 +24,7 @@ cmake --build build --parallel 4
 ctest --test-dir build --output-on-failure
 ~~~
 
-Use an x64 compiler for 64-bit or an i686 compiler for 32-bit, with a separate build directory for each. The DLL is in `build\KPairs.dll`.
+Use an x64 compiler. The DLL is in `build\KPairs.dll`.
 
 With Visual Studio C++ Build Tools and the Windows SDK:
 
@@ -34,11 +34,11 @@ cmake --build build-vs --config Release
 ctest --test-dir build-vs -C Release --output-on-failure
 ~~~
 
-Use `-A Win32` and a different build directory for 32-bit. The DLL is in `build-vs\Release\KPairs.dll`.
+The DLL is in `build-vs\Release\KPairs.dll`.
 
 ### Install the plugin
 
-Close Notepad++. Extract the **KPairs** folder from **KPairs-0.2-x64.zip** into your Notepad++ **plugins** directory.
+Close Notepad++. Extract the **KPairs** folder from **KPairs-0.3-x64.zip** into your Notepad++ **plugins** directory.
 
 The resulting layout must be:
 
@@ -52,7 +52,7 @@ If your archive tool creates an extra folder named after the ZIP, move the **KPa
 Restart Notepad++ and open **Plugins → KPairs → Show KPairs**. Binary packages contain the plugin, translations and documentation; the src package contains the source and build files.
 
 ### Tested with
-Tested with **Notepad++ 8.9.8.1 (64-bit)** on Windows. Automated tests cover replacement modes, selection boundaries, undo, preview, groups, search, favourites, import, statistics, translations and panel layout: 55 model assertions and 44 checks inside Notepad++. Wine has not been tested.
+Tested with **Notepad++ 8.9.8.1 (64-bit)** on Windows. Automated tests cover replacement modes, selection boundaries, undo, preview, groups, search, favourites, import, statistics, translations and panel layout: 55 model assertions and 50 checks inside Notepad++. Wine has not been tested.
 
 ## Usage
 
@@ -86,6 +86,18 @@ A blank name displays **Find => Replace with**. An empty replacement deletes mat
 | Use count | How often the pair has been executed; read-only |
 
 The pair and group editors let you keep using Notepad++, for example to copy text into a pair.
+
+### Multiple operations
+
+A pair can contain an ordered chain of up to 100 operations. In the pair editor, click **Add operation** to expand the operation list. Select a step to edit its Find, Replace with, search mode and case sensitivity in the same window. Use **Up**, **Down**, **Duplicate** and **Remove** to arrange the steps. Repeated operations are allowed.
+
+For example, a chain can replace **foo → bar**, then **bar → baz**. Each step works on the preceding step's result. Operations belong to this pair; they do not reference other library entries.
+
+The name, description, group, colour, favourites, file filters and scope belong to the entire pair. The first operation retains the existing group defaults for search mode and case sensitivity; additional operations have their own explicit values. Reordering preserves their effective mode and case sensitivity.
+
+**Preview** reports the replacement count for each step and a shortened before-and-after view of the final result. A failure cancels the entire chain without changing the document. One **Ctrl+Z** undoes the chain. Selection boundaries follow changes in text length. Statistics count one execution and the sum of replacements across all steps, even if a later step changes the same text again.
+
+The coral **M** flag identifies multiple operations. With **Display always**, a single operation shows a muted **1** instead. Both variants have editable text and colours. Mode and case flags describe the first operation.
 
 ### Side panel, favourites and context menu
 
@@ -170,6 +182,7 @@ Tags after the pair name show its effective settings:
 | F− / F | Filename filter off / on |
 | D− / D / D+ | Directory filter off / exact directory / recursive directory |
 | S / W | Selection only / Whole document |
+| 1 / M | Single / multiple operations |
 
 In Settings, enable **Show flags on list** and choose which flags to show. Normally a flag appears only when it differs from the application default. **Display always** also shows its default state. For example, CI is the default: without Display always, only CS appears.
 

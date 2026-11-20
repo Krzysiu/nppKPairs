@@ -475,3 +475,39 @@ msgstr "Cały dokument"
 
 msgid "Show KPairs"
 msgstr "Pokaż KPairs"
+
+msgid "Operations"
+msgstr "Operacje"
+
+msgid "Add operation"
+msgstr "Dodaj operację"
+
+msgid "Up"
+msgstr "W górę"
+
+msgid "Down"
+msgstr "W dół"
+
+msgid "Remove"
+msgstr "Usuń"
+
+msgid "Multiple operations"
+msgstr "Wiele operacji"
+
+msgid "Single operation"
+msgstr "Jedna operacja"
+
+msgid "Operation "
+msgstr "Operacja "
+
+msgid "Final result (shortened). No changes applied."
+msgstr "Wynik końcowy (skrócony). Nie wprowadzono zmian."
+
+msgid "Invalid operation."
+msgstr "Nieprawidłowa operacja."
+
+msgid "A pair supports up to 100 operations."
+msgstr "Para obsługuje maksymalnie 100 operacji."
+
+msgid "Operation is too large. No changes were applied."
+msgstr "Operacja jest zbyt duża. Nie wprowadzono zmian."

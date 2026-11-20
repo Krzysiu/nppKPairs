@@ -93,3 +93,11 @@
 #define ID_GUIDE 109
 
 #define S_SAMPLE 450
+
+#define E_OPLIST 850
+#define E_OPADD 851
+#define E_OPREMOVE 852
+#define E_OPUP 853
+#define E_OPDOWN 854
+#define E_OPDUP 855
+#define E_OPTITLE 856

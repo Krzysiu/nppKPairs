@@ -194,6 +194,47 @@ void integrationTest() {
         locale.load("en");
         sci(active, SCI_CLEARALL);
         sci(active, SCI_SETSAVEPOINT);
+
+        Pair chain;
+        chain.find = "a";
+        chain.replace = "long";
+        chain.mode = 0;
+        chain.operations = {{"long", "b", 0, true}, {"b", "c", 0, true}, {"c", "cc", 0, true}};
+        auto serial = json(chain).get<Pair>();
+        test(serial.operations.size() == 3, "chain JSON round trip");
+        auto result = makePlan(chain, "keep a a tail", SC_CP_UTF8, 5, 8);
+        test(result.matches() == 8 && result.stepCounts.size() == 4, "chain sequential replacement counts");
+        sci(active, SCI_SETTEXT, 0, (LPARAM) "keep a a tail");
+        sci(active, SCI_EMPTYUNDOBUFFER);
+        sci(active, SCI_SETSEL, 5, 8);
+        applyPlan(active, result);
+        test(range(active, 0, sci(active, SCI_GETLENGTH)) == "keep cc cc tail" &&
+                 sci(active, SCI_GETSELECTIONEND) == 10,
+             "chain selection tracks length");
+        sci(active, SCI_UNDO);
+        test(range(active, 0, sci(active, SCI_GETLENGTH)) == "keep a a tail", "chain single undo");
+        chain.operations.push_back({"[", "", 2, true});
+        bool failed = false;
+        try {
+            makePlan(chain, "keep a a tail", SC_CP_UTF8, 5, 8);
+        } catch (...) {
+            failed = true;
+        }
+        test(failed && range(active, 0, sci(active, SCI_GETLENGTH)) == "keep a a tail",
+             "chain error leaves document unchanged");
+        editPair(0);
+        dialog = modeless.back();
+        SendMessageW(dialog, WM_COMMAND, E_OPADD, 0);
+        field(dialog, E_FIND, "second");
+        field(dialog, E_REPLACE, "third");
+        SendMessageW(dialog, WM_COMMAND, E_OPUP, 0);
+        auto context = (EditContext *)GetWindowLongPtrW(dialog, DWLP_USER);
+        test(context->pair.find == "second" && context->pair.operations.size() == 1 &&
+                 context->operation == 0,
+             "operation editor reorder");
+        DestroyWindow(dialog);
+        sci(active, SCI_CLEARALL);
+        sci(active, SCI_SETSAVEPOINT);
         log << "ALL PASSED: " << count << " checks\n";
     } catch (const std::exception &e) {
         log << "FAILED after " << count << ": " << e.what() << "\n";

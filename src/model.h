@@ -140,7 +140,29 @@ inline void from_json(const json &j, Options &p) {
     if (p.mode < 0 || p.mode > 2 || p.scope < 0 || p.scope > 1 || p.color < -1 || p.color > 0xFFFFFF)
         throw std::runtime_error("Invalid settings.");
 }
+struct Operation {
+    std::string find, replace;
+    int mode = 2;
+    bool ignoreCase = true;
+};
+inline void to_json(json &j, const Operation &o) {
+    j = {{"find", o.find}, {"replace", o.replace}, {"mode", o.mode}, {"ignoreCase", o.ignoreCase}};
+}
+inline void from_json(const json &j, Operation &o) {
+    o.find = j.at("find").get<std::string>();
+    o.replace = j.value("replace", std::string{});
+    o.mode = j.value("mode", 2);
+    o.ignoreCase = j.value("ignoreCase", true);
+    if (o.find.empty() || o.mode < 0 || o.mode > 2)
+        throw std::runtime_error("Invalid operation.");
+    for (auto *value : {&o.find, &o.replace}) {
+        if (value->size() > 1000000 || value->find('\0') != value->npos)
+            throw std::runtime_error("Invalid text field.");
+        wide(*value);
+    }
+}
 struct Pair : Options {
+    std::vector<Operation> operations; // Additional operations after the first, legacy-compatible fields.
     std::string id = newId(), name, find, replace, description, group;
     unsigned overrides = 0;
     bool favourite = false;
@@ -148,7 +170,8 @@ struct Pair : Options {
 };
 inline void to_json(json &j, const Pair &p) {
     to_json(j, static_cast<const Options &>(p));
-    j.update({{"id", p.id},
+    j.update({{"operations", p.operations},
+              {"id", p.id},
               {"name", p.name},
               {"find", p.find},
               {"replace", p.replace},
@@ -162,6 +185,9 @@ inline void to_json(json &j, const Pair &p) {
 }
 inline void from_json(const json &j, Pair &p) {
     from_json(j, static_cast<Options &>(p));
+    p.operations = j.value("operations", std::vector<Operation>{});
+    if (p.operations.size() > 99)
+        throw std::runtime_error("A pair supports up to 100 operations.");
     p.id = j.value("id", newId());
     p.name = j.value("name", std::string{});
     p.find = j.at("find").get<std::string>();
@@ -212,7 +238,8 @@ inline std::vector<Flag> defaultFlags() {
     return {{"N", RGB(217, 108, 165)},  {"E", RGB(165, 132, 214)},  {"R", RGB(96, 155, 222)},
             {"CI", RGB(168, 156, 130)}, {"CS", RGB(217, 164, 65)},  {"F-", RGB(142, 170, 160)},
             {"F", RGB(89, 174, 134)},   {"D-", RGB(140, 168, 168)}, {"D", RGB(67, 173, 174)},
-            {"D+", RGB(216, 184, 77)},  {"S", RGB(168, 186, 199)},  {"W", RGB(85, 169, 224)}};
+            {"D+", RGB(216, 184, 77)},  {"S", RGB(168, 186, 199)},  {"W", RGB(85, 169, 224)},
+            {"1", RGB(184, 160, 156)},  {"M", RGB(232, 131, 115)}};
 }
 struct Library {
     std::vector<Pair> pairs;
@@ -222,12 +249,12 @@ struct Library {
     int doubleClick = 1, groupDisplay = 1, searchMode = 0, sortMode = 0;
     std::string language = "auto";
     uint64_t executions = 0, replacements = 0;
-    std::array<bool, 5> flagVisible{true, true, true, true, true},
-        flagAlways{false, false, false, false, false};
+    std::array<bool, 6> flagVisible{true, true, true, true, true, true},
+        flagAlways{false, false, false, false, false, false};
     std::vector<Flag> flags = defaultFlags();
 };
 inline json encode(const Library &l) {
-    return {{"schemaVersion", 2},
+    return {{"schemaVersion", 3},
             {"pairs", l.pairs},
             {"groups", l.groups},
             {"repeatFavourites", l.repeatFavourites},
@@ -249,11 +276,11 @@ inline json encode(const Library &l) {
 }
 inline Library decode(const json &j) {
     int version = j.at("schemaVersion");
-    if (version != 1 && version != 2)
+    if (version < 1 || version > 3)
         throw std::runtime_error("Unsupported library version.");
     Library l;
     l.pairs = j.at("pairs").get<std::vector<Pair>>();
-    if (version == 2) {
+    if (version >= 2) {
         l.groups = j.value("groups", std::vector<Group>{});
         l.repeatFavourites = j.value("repeatFavourites", false);
         l.collectStats = j.value("collectStats", true);
@@ -268,11 +295,23 @@ inline Library decode(const json &j) {
         l.language = j.value("language", std::string("auto"));
         l.executions = j.value("executions", uint64_t(0));
         l.replacements = j.value("replacements", uint64_t(0));
-        l.flagVisible = j.value("flagVisible", l.flagVisible);
-        l.flagAlways = j.value("flagAlways", l.flagAlways);
+        for (auto name : {"flagVisible", "flagAlways"})
+            if (j.contains(name)) {
+                auto values = j.at(name).get<std::vector<bool>>();
+                if (values.size() != 5 && values.size() != 6)
+                    throw std::runtime_error("Invalid library settings.");
+                auto &target = std::string(name) == "flagVisible" ? l.flagVisible : l.flagAlways;
+                for (size_t i = 0; i < values.size(); ++i)
+                    target[i] = values[i];
+            }
         l.flags = j.value("flags", defaultFlags());
+        if (l.flags.size() == 12) {
+            auto defaults = defaultFlags();
+            l.flags.push_back(defaults[12]);
+            l.flags.push_back(defaults[13]);
+        }
     }
-    if (l.pairs.size() > 10000 || l.groups.size() > 1000 || l.flags.size() != 12 || l.doubleClick < 0 ||
+    if (l.pairs.size() > 10000 || l.groups.size() > 1000 || l.flags.size() != 14 || l.doubleClick < 0 ||
         l.doubleClick > 3 || l.groupDisplay < 0 || l.groupDisplay > 2 || l.searchMode < 0 ||
         l.searchMode > 2 || l.sortMode < 0 || l.sortMode > 1)
         throw std::runtime_error("Invalid library settings.");
@@ -324,6 +363,10 @@ inline bool matchesQuery(const Pair &p, const std::wstring &query, int mode) {
     std::vector<std::wstring> fields;
     for (auto *s : {&p.name, &p.description, &p.find, &p.replace})
         fields.push_back(lower(wide(*s)));
+    for (auto &o : p.operations) {
+        fields.push_back(lower(wide(o.find)));
+        fields.push_back(lower(wide(o.replace)));
+    }
     auto has = [&](const std::wstring &q) {
         return std::any_of(fields.begin(), fields.end(), [&](auto &s) { return s.find(q) != s.npos; });
     };

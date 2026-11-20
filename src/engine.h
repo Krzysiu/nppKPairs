@@ -31,8 +31,17 @@ struct Plan {
     std::string original;
     int cp;
     intptr_t a, b;
+    std::vector<size_t> stepCounts;
+    size_t matches() const {
+        if (stepCounts.empty())
+            return edits.size();
+        size_t n = 0;
+        for (auto v : stepCounts)
+            n += v;
+        return n;
+    }
 };
-Plan makePlan(const Pair &p, const std::string &original, int cp, intptr_t a, intptr_t b) {
+Plan makeSinglePlan(const Pair &p, const std::string &original, int cp, intptr_t a, intptr_t b) {
     if (original.size() > 32 * 1024 * 1024)
         throw std::runtime_error("This version supports documents up to 32 MiB.");
     putScratch(original, cp);
@@ -78,6 +87,37 @@ Plan makePlan(const Pair &p, const std::string &original, int cp, intptr_t a, in
             break;
     }
     return plan;
+}
+Plan makePlan(const Pair &pair, const std::string &original, int cp, intptr_t a, intptr_t b) {
+    if (pair.operations.empty())
+        return makeSinglePlan(pair, original, cp, a, b);
+    if (pair.operations.size() > 99)
+        throw std::runtime_error("A pair supports up to 100 operations.");
+    std::vector<Operation> steps{{pair.find, pair.replace, pair.mode, pair.ignoreCase}};
+    steps.insert(steps.end(), pair.operations.begin(), pair.operations.end());
+    Plan result{{}, original, cp, a, b};
+    auto current = original;
+    intptr_t end = b;
+    auto started = GetTickCount64();
+    for (auto &op : steps) {
+        Pair p;
+        p.find = op.find;
+        p.replace = op.replace;
+        p.mode = op.mode;
+        p.ignoreCase = op.ignoreCase;
+        auto step = makeSinglePlan(p, current, cp, a, end);
+        result.stepCounts.push_back(step.edits.size());
+        for (auto i = step.edits.rbegin(); i != step.edits.rend(); ++i)
+            current.replace((size_t)i->start, (size_t)(i->end - i->start), i->after);
+        end = b + (intptr_t)current.size() - (intptr_t)original.size();
+        if (result.matches() > 100000 || GetTickCount64() - started > 10000)
+            throw std::runtime_error("Operation is too large. No changes were applied.");
+    }
+    auto before = original.substr((size_t)a, (size_t)(b - a)),
+         after = current.substr((size_t)a, (size_t)(end - a));
+    if (before != after)
+        result.edits.push_back({a, b, before, after, 0});
+    return result;
 }
 void validate(const Pair &p) {
     json j = p;

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3
+
+- Added ordered operations within a pair, with independent search modes and case sensitivity.
+- Added operation editing, duplication, removal and reordering in the pair editor.
+- Added the configurable M / 1 flag for multiple and single operations.
+- Added per-step preview counts and atomic chain execution with one-step undo.
+- Extended library search to include all operations.
+- Preserved support for existing libraries.
+
 ## 0.2
 
 - Renamed the plugin to KPairs.

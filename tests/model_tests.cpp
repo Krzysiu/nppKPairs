@@ -127,7 +127,7 @@ int main() {
         j = encode(lib);
         j["schemaVersion"] = 1;
         check(decode(j).pairs.size() == 1, "legacy version");
-        check(defaultFlags().size() == 12, "flag variants");
+        check(defaultFlags().size() == 14, "flag variants");
         Locale locale;
         locale.scan(std::filesystem::path(__FILE__).parent_path().parent_path() / L"locale");
         locale.load("pl_PL");

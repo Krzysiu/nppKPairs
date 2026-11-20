@@ -475,3 +475,39 @@ msgstr ""
 
 msgid "Show KPairs"
 msgstr ""
+
+msgid "Operations"
+msgstr ""
+
+msgid "Add operation"
+msgstr ""
+
+msgid "Up"
+msgstr ""
+
+msgid "Down"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Multiple operations"
+msgstr ""
+
+msgid "Single operation"
+msgstr ""
+
+msgid "Operation "
+msgstr ""
+
+msgid "Final result (shortened). No changes applied."
+msgstr ""
+
+msgid "Invalid operation."
+msgstr ""
+
+msgid "A pair supports up to 100 operations."
+msgstr ""
+
+msgid "Operation is too large. No changes were applied."
+msgstr ""
